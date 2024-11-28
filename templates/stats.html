@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Статистика</title>
+</head>
+<body>
+    <h1>Статистика использования приложения</h1>
+
+    <h2>Статистика пользователей</h2>
+    <ul>
+        {% for user, stats in user_stats.items() %}
+        <li>
+            <strong>{{ user }}</strong>
+            <ul>
+                <li>Сообщений отправлено: {{ stats["messages"] }}</li>
+                <li>Действия:</li>
+                <ul>
+                    {% for action in stats["actions"] %}
+                    <li>{{ action["route"] }} — {{ action["timestamp"] }}</li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Статистика использования маршрутов</h2>
+    <ul>
+        {% for route, timestamps in command_stats.items() %}
+        <li>
+            <strong>{{ route }}</strong> — вызвано {{ timestamps | length }} раз(а)
+            <ul>
+                {% for timestamp in timestamps %}
+                <li>{{ timestamp }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('index') }}">Назад на главную</a>
+</body>
+</html>
